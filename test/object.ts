@@ -1,4 +1,5 @@
 import {
+  boolean,
   mixed,
   string,
   date,
@@ -118,6 +119,19 @@ describe('Object types', () => {
       await expect(inst.validate(obj)).rejects.toEqual(
         validationErrorWithMessages(expect.stringContaining('arrNested[1]')),
       );
+    });
+
+    it('should not require fields on optional objects', async () => {
+      let inst = object({
+        fooValid: boolean().required(),
+        foo: object({
+          num: number().required(),
+        }).optional(),
+      }).required();
+
+      await expect(inst.isValid({ fooValid: true, foo: { num: 42 } })).resolves.toBe(true);
+
+      await expect(inst.isValid({ fooValid: false })).resolves.toBe(true);
     });
 
     it('should prevent recursive casting', async () => {
@@ -328,7 +342,7 @@ describe('Object types', () => {
           prop: mixed(),
           other: object({
             x: object({ b: string() }),
-          }),
+          }).required(),
         }).cast({ prop: 'foo' }),
       ).toEqual({
         prop: 'foo',

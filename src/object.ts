@@ -203,6 +203,10 @@ export default class ObjectSchema<
           continue;
         }
 
+        if (fieldSpec?.optional && !exists) {
+          continue;
+        }
+
         fieldValue =
           !options.__validating || !strict
             ? // TODO: use _cast, this is double resolving
