@@ -1,0 +1,16 @@
+{
+  "configurations": [
+    {
+      "name": "Run Tests",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": [
+        "test-all",
+        "--runInBand"
+      ],
+      "cwd": "${workspaceFolder}",
+      "outputCapture": "std"
+    }
+  ]
+}
